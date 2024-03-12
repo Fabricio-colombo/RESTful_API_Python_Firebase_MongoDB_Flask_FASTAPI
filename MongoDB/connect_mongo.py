@@ -10,4 +10,7 @@ def connect_mongodb():
     client = MongoClient(MONGO_URI)
     db = client[DB_NAME]
     collection = db[COLLECTION_NAME]
-    return collection
+    
+    new_document = {"title": "New Book", "author": "John Doe", "year": 2022}
+    insert_result = collection.insert_one(new_document)
+    print("Inserted document ID:", insert_result.inserted_id)
