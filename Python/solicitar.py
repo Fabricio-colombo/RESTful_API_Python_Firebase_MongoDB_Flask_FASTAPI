@@ -1,9 +1,12 @@
 import requests
+import json
 
-response = requests.get('http://localhost:5000/')
+url = 'http://localhost:8080/livros'
+response = requests.get(url)
 
 if response.status_code == 200:
     data = response.json()
-    print(data)
+    formatted_data = json.dumps(data, indent=4)  # Indenta o JSON para uma melhor legibilidade
+    print(formatted_data)
 else:
     print('Erro ao fazer a solicitação:', response.status_code)
