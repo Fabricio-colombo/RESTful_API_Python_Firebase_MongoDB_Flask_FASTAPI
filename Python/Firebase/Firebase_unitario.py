@@ -3,7 +3,6 @@ from firebase_admin import credentials
 from firebase_admin import db
 from firebase_config import caminho_secret
 
-# Carregar as credenciais do arquivo JSON
 cred = credentials.Certificate(caminho_secret)
 
 firebase_admin.initialize_app(cred, {
