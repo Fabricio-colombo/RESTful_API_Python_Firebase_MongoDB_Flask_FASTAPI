@@ -3,20 +3,36 @@ import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import db
 from firebase_config_FASTAPI import caminho_secret
+from pymongo import MongoClient
 
 app = FastAPI()
 
-def conectar_banco():
+def conectar_mongodb():
+    MONGO_URI = "mongodb://localhost:27017/"
+    DB_NAME = "Books"
+    COLLECTION_NAME = "Non-Fiction"
+
+    client = MongoClient(MONGO_URI)
+    db = client[DB_NAME]
+    collection = db[COLLECTION_NAME]
+    return collection 
+
+def conectar_firebase():
     cred = credentials.Certificate(caminho_secret)
     firebase_admin.initialize_app(cred, {
         'databaseURL': 'https://books-fiction-go-default-rtdb.firebaseio.com/'
     })
 
-@app.get("/fiction")
+@app.get("/livro_de_ficcao")
 def get_books_fiction():
-    conectar_banco()
-    ref = db.reference('/fiction')
+    conectar_firebase()
+    ref = db.reference('/livro_de_ficcao')
     return ref.get()
+
+@app.get("/livro_de_nao_ficcao")
+def get_books_non_fiction():
+    collection = conectar_mongodb()
+    return list(collection.find())
 
 @app.get("/")
 def home():
