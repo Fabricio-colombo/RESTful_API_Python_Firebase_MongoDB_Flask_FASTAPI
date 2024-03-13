@@ -2,7 +2,7 @@ from fastapi import FastAPI
 import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import db
-from firebase_config import caminho_secret
+from Python.Firebase.firebase_config import caminho_secret
 
 app = FastAPI()
 
