@@ -45,6 +45,29 @@ def get_books_non_fiction():
     books = list(collection.find())
     return custom_encoder(books)
 
+@app.post("/livro_de_ficcao")
+def add_book_fiction(title: str, author: str, language: str, pages: int, rating: float, year: int):
+    try:
+        conectar_firebase()
+        ref = db.reference('/livro_de_ficcao')
+        new_book_ref = ref.push()
+        new_book_ref.set({
+            'title': title,
+            'author': author,
+            'language': language,
+            'pages': pages,
+            'rating': rating,
+            'year': year
+        })
+        return {"message": "Livro de ficção adicionado com sucesso"}
+    except Exception as e:
+        return {"error": str(e)}
+
+
 @app.get("/")
 def home():
     return "Bem-vindo à API de Livros! Esta é uma API para consultar livros de ficção que estão no banco de dados do Firebase, e livros de não ficção no banco de dados MongoDB."
+
+
+
+
